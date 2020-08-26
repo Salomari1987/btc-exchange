@@ -25,5 +25,12 @@ class ExchangeRateViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
+    def filter_queryset(self, queryset):
+        queryset = self.get_queryset()
+        latest_object = queryset.order_by('-created_at').first()
+        try:
+            return queryset.filter(id=latest_object.id)
+        except IndexError:
+            return queryset
 
 
