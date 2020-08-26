@@ -1,0 +1,25 @@
+version: "3.2"
+services:
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+       POSTGRES_DB: 'btcexchange'
+       POSTGRES_USER: 'root'
+       POSTGRES_PASSWORD: 'password'
+       MYSQL_ROOT_PASSWORD: 'password'
+  btcapp:
+    build: .
+    volumes:
+     - .:/app/backend
+    ports:
+     - "8000:8000"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+    command: python3 manage.py runserver 0.0.0.0:8000
+    env_file:
+      - local.env
