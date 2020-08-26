@@ -9,5 +9,6 @@ SECRET_KEY = {secret_key}
 ALPHA_ADVANTAGE_API_KEY = {apikey}
 ```
 * Bring container up using `docker-compose up -d`
-* Run migrations `docker-compose run btcapp python manage.py migrate`
+* Run migrations `docker-compose exec btcapp python manage.py migrate`
+* Create a super user `docker-compose exec btcapp python manage.py createsuperuser --email admin@example.com --username admin`
 * Access app at http://localhost:8000
