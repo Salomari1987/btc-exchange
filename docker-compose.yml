@@ -9,7 +9,6 @@ services:
        POSTGRES_DB: 'btcexchange'
        POSTGRES_USER: 'root'
        POSTGRES_PASSWORD: 'password'
-       MYSQL_ROOT_PASSWORD: 'password'
   btcapp:
     build: .
     volumes:
