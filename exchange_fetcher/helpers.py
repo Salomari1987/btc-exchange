@@ -1,6 +1,5 @@
 from django.conf import settings
 import requests
-import json
 
 
 def request_exchange_rate():

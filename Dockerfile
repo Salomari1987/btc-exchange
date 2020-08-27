@@ -8,6 +8,8 @@ WORKDIR /app
 COPY requirements.txt /app/
 RUN pip3 install --upgrade pip -r requirements.txt
 
+RUN apt-get update && apt-get -y install cron
+
 # Add the rest of the code
 COPY . /app
 

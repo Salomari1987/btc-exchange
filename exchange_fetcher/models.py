@@ -6,3 +6,4 @@ class ExchangeRate(models.Model):
     bid_price = models.FloatField(blank=False, null=False)
     ask_price = models.FloatField(blank=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
