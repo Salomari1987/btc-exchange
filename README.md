@@ -8,6 +8,15 @@
 SECRET_KEY = {secret_key}
 ALPHA_ADVANTAGE_API_KEY = {apikey}
 ```
-* Bring container up using `docker-compose up -d`
-* Run migrations `docker-compose run btcapp python manage.py migrate`
+* Provision box `make provision`
+* Create a super user `docker-compose exec btcapp python manage.py createsuperuser --email admin@example.com --username admin`
 * Access app at http://localhost:8000
+
+## Help
+* Type `make help` for a list of commands you can use
+
+## Technology
+* For containers and environment: Docker and Docker Compose
+* For REST server: Django and DRF
+* DB: Postgres
+* For scheduling tasks: Celery, Celery Beat, and Redis

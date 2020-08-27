@@ -1,5 +1,40 @@
 version: "3.2"
 services:
+  redis:
+    image: redis:alpine
+  celery:
+    build:
+      context: "."
+      dockerfile: Dockerfile
+    command: celery -A btcexchange worker -l info -E
+    volumes:
+      - .:/app/
+    env_file:
+      - local.env
+    depends_on:
+      - redis
+    links:
+      - db
+      - redis
+    environment:
+      POSTGRES_DB: 'btcexchange'
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: 'password'
+  celery-beat:
+    build:
+      context: "."
+      dockerfile: Dockerfile
+    command: celery -A btcexchange beat -l info -S django
+    volumes:
+      - .:/app/
+    env_file:
+      - local.env
+    depends_on:
+      - redis
+    environment:
+      POSTGRES_DB: 'btcexchange'
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: 'password'
   db:
     image: postgres
     restart: always
@@ -10,15 +45,18 @@ services:
        POSTGRES_USER: 'root'
        POSTGRES_PASSWORD: 'password'
   btcapp:
-    build: .
+    build:
+      context: "."
+      dockerfile: Dockerfile
     volumes:
-     - .:/app/backend
+     - .:/app
     ports:
      - "8000:8000"
     stdin_open: true
     tty: true
     depends_on:
       - db
+      - redis
     command: python3 manage.py runserver 0.0.0.0:8000
     env_file:
       - local.env
